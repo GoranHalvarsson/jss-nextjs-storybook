@@ -248,12 +248,10 @@ jobs:
          
           Write-Host "Done!" -ForegroundColor Green
 
-         
-
       - name: Run dockers
         shell: powershell 
         run: 
-          Write-Host "Building containers..." -ForegroundColor Green
+          Write-Host "Building containers..."
           docker-compose build
           if ($LASTEXITCODE -ne 0) {
               Write-Error "Container build failed, see errors above."
