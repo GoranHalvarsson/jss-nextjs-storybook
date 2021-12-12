@@ -60,12 +60,19 @@ services:
   #   volumes:
   #     - ./docker/traefik:C:/etc/traefik
 
-  # mssql:
-  #   volumes:
-  #     - type: bind
-  #       source: .\docker\data\sql
-  #       target: c:\data
-  #   mem_limit: ${MEM_LIMIT_SQL:-2GB}        
+  # Mount our SQL data folder and use our custom image with the Headless Services (JSS)
+  # module data added. See Dockerfile for details.
+  mssql:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xp0-mssql:${VERSION:-latest}
+    build:
+      context: ./docker/build/mssql
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-mssql:${SITECORE_VERSION}
+        HEADLESS_SERVICES_IMAGE: ${HEADLESS_SERVICES_IMAGE}
+    volumes:
+      - type: bind
+        source: .\docker\data\sql
+        target: c:\data    
   
 
   # Mount our Solr data folder and use our retagged Solr image.
