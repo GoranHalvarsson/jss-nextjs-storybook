@@ -80,7 +80,7 @@ jobs:
           TRAEFIK_IMAGE: traefik:v2.2.0-windowsservercore-1809
 
           # Windows and Node.js version for JSS
-          NODEJS_PARENT_IMAGE=´: mcr.microsoft.com/windows/nanoserver:1809
+          NODEJS_PARENT_IMAGE: mcr.microsoft.com/windows/nanoserver:1809
           NODEJS_VERSION: 14.15.3
 
           # MSBuild configuration and the target build stage for the Rendering Host image.
@@ -212,13 +212,17 @@ jobs:
       - name: Populate Env file
         shell: powershell
         run: | 
-          echo "REPORTING_API_KEY=Get-SitecoreRandomString 128 -DisallowSpecial" >> $env:GITHUB_ENV
+          $reportKey=Get-SitecoreRandomString 128 -DisallowSpecial
+          echo "REPORTING_API_KEY=$reportKey" >> $env:GITHUB_ENV
 
-          echo "TELERIK_ENCRYPTION_KEY=Get-SitecoreRandomString 128" >> $env:GITHUB_ENV
+          $telerikKey=Get-SitecoreRandomString 128
+          echo "TELERIK_ENCRYPTION_KEY=$telerikKey" >> $env:GITHUB_ENV
 
-          echo "MEDIA_REQUEST_PROTECTION_SHARED_SECRET=Get-SitecoreRandomString 64" >> $env:GITHUB_ENV
+          $mediaKey=Get-SitecoreRandomString 64
+          echo "MEDIA_REQUEST_PROTECTION_SHARED_SECRET=$mediaKey" >> $env:GITHUB_ENV
 
-          echo "SITECORE_IDSECRET=Get-SitecoreRandomString 64 -DisallowSpecial)" >> $env:GITHUB_ENV
+          $sitecoreIdSecret=Get-SitecoreRandomString 64 -DisallowSpecial
+          echo "SITECORE_IDSECRET=$sitecoreIdSecret" >> $env:GITHUB_ENV
 
           $idCertPassword = Get-SitecoreRandomString 8 -DisallowSpecial
           $idCertificate = Get-SitecoreCertificateAsBase64String -DnsName "localhost" -Password (ConvertTo-SecureString -String $idCertPassword -Force -AsPlainText)
@@ -233,8 +237,9 @@ jobs:
           echo "SITECORE_ADMIN_PASSWORD=${{ github.event.inputs.SITECORE_ADMIN_PASSWORD }}" >> $env:GITHUB_ENV
           
           $jssEditingSecret = Get-SitecoreRandomString 64 -DisallowSpecial
+          $jssEditingSecretAgain = $jssEditingSecret -Path .\src\rendering\.env
           echo "JSS_EDITING_SECRET=$jssEditingSecret" >> $env:GITHUB_ENV
-          echo "JSS_EDITING_SECRET=$jssEditingSecret -Path .\src\rendering\.env" >> $env:GITHUB_ENV
+          echo "JSS_EDITING_SECRET=$jssEditingSecretAgain" >> $env:GITHUB_ENV
 
           Write-Host "Done!" -ForegroundColor Green
 

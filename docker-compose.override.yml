@@ -56,9 +56,9 @@ services:
       - "traefik.http.routers.rendering-secure.tls=true"
 
   # Mount the Traefik configuration and certs.
-  traefik:
-    volumes:
-      - ./docker/traefik:C:/etc/traefik
+  # traefik:
+  #   volumes:
+  #     - ./docker/traefik:C:/etc/traefik
 
   # Mount our SQL data folder and use our custom image with the Headless Services (JSS)
   # module data added. See Dockerfile for details.
