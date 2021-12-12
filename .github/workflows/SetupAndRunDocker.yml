@@ -21,12 +21,6 @@ on:
         options:
         - default
         - process
-      TRAEFIK_ISOLATION:
-        type: choice 
-        description: 'Select isolation type'
-        options:
-        - default
-        - process
       HOST_LICENSE_FOLDER:
         description: 'Path to your Sitecore license'     
         required: true
@@ -112,7 +106,7 @@ jobs:
 
           # The isolation mode for Sitecore containers.
           # Compatibility of isolation mode depends on the Host and Container OS versions.
-          TRAEFIK_ISOLATION : ${{ github.event.inputs.TRAEFIK_ISOLATION }}
+          TRAEFIK_ISOLATION : hyperv
           SOLR_ISOLATION : ${{ github.event.inputs.SOLR_ISOLATION }}
           ISOLATION : ${{ github.event.inputs.ISOLATION }}
 
