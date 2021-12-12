@@ -252,7 +252,19 @@ jobs:
 
       - name: Run dockers
         shell: powershell 
-        run: docker-compose -f docker-compose.override.yml up -d 
+        run: 
+          $envCheckVariable = "HOST_LICENSE_FOLDER"
+          $envCheck = Get-Content .env -Encoding UTF8 | Where-Object { $_ -imatch "^$envCheckVariable=.+" }
+          if (-not $envCheck) {
+              throw "$envCheckVariable does not have a value. Did you run 'init.ps1 -InitEnv'?"
+          }
+          Write-Host "Building containers..." -ForegroundColor Green
+          docker-compose build
+          if ($LASTEXITCODE -ne 0) {
+              Write-Error "Container build failed, see errors above."
+          }
+          Write-Host "Starting Sitecore environment..." -ForegroundColor Green
+          docker-compose up -d
 
   populate-solr-schema:
       needs: init-and-run-docker

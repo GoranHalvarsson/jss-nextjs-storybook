@@ -32,14 +32,13 @@ services:
       SA_PASSWORD: ${SQL_SA_PASSWORD}
       SITECORE_ADMIN_PASSWORD: ${SITECORE_ADMIN_PASSWORD}
       ACCEPT_EULA: "Y"
-       #SQL_SERVER: mssql
+      SQL_SERVER: mssql
     ports:
       - "14330:1433"
     volumes:
       - type: bind
         source: .\mssql-data
-        target: c:\data      
-  
+        target: c:\data
   solr:
     isolation: ${ISOLATION}
     image: ${SITECORE_DOCKER_REGISTRY}nonproduction/solr:8.4.0-${SITECORE_VERSION}
@@ -47,7 +46,7 @@ services:
       - "8984:8983"
     volumes:
       - type: bind
-        source: .\docker\data\solr
+        source: .\solr-data
         target: c:\data
     environment:
       SOLR_MODE: solrcloud
