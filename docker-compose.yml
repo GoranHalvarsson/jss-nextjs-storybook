@@ -48,7 +48,7 @@ services:
       - "8984:8983"
     volumes:
       - type: bind
-        source: .\solr-data
+        source: .\docker\data\solr
         target: c:\data
     environment:
       SOLR_MODE: solrcloud
