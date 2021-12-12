@@ -69,10 +69,7 @@ services:
       args:
         PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-mssql:${SITECORE_VERSION}
         HEADLESS_SERVICES_IMAGE: ${HEADLESS_SERVICES_IMAGE}
-    volumes:
-      - type: bind
-        source: .\docker\data\sql
-        target: c:\data    
+   
   
 
   # Mount our Solr data folder and use our retagged Solr image.
