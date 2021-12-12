@@ -22,9 +22,9 @@ on:
         - default
         - process
       HOST_LICENSE_FOLDER:
-        description: 'Path to your Sitecore license'     
+        description: 'Path to your Sitecore license folder'     
         required: true
-        default: 'C:\license\license.xml'       
+        default: 'C:\license'       
       SQL_SA_PASSWORD: 
         description: 'Password to SQL'
         required: true
@@ -266,7 +266,7 @@ jobs:
             # Setup Sitecore ClI tool
             Write-Host "Setup Sitecore CLI..." -ForegroundColor Green
             dotnet new tool-manifest
-            dotnet tool install --add-source https://sitecore.myget.org/F/sc-packages/api/v3/index.json --version 4.0.0 sitecore.cli
+            dotnet tool install --add-source https://sitecore.myget.org/F/sc-packages/api/v3/index.json --version 3.0.0 sitecore.cli
 
             # Populate Solr managed schemas to avoid errors during item deploy
             Write-Host "Populating Solr managed schema..." -ForegroundColor Green
@@ -275,7 +275,7 @@ jobs:
           }  
 
   push-items:
-      needs: init-and-run-docker
+      needs: populate-solr-schema
       name: Push Sitecore Items
       runs-on: magical  
       steps:
@@ -307,7 +307,7 @@ jobs:
             # Setup Sitecore ClI tool
             Write-Host "Setup Sitecore CLI..." -ForegroundColor Green
             dotnet new tool-manifest
-            dotnet tool install --add-source https://sitecore.myget.org/F/sc-packages/api/v3/index.json --version 4.0.0 sitecore.cli
+            dotnet tool install --add-source https://sitecore.myget.org/F/sc-packages/api/v3/index.json --version 3.0.0 sitecore.cli
 
             # Login and get access to push serliazed items
             Write-Host "Login and get access to push serliazed items..." -ForegroundColor Green
