@@ -69,7 +69,9 @@ services:
       args:
         PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xp0-mssql:${SITECORE_VERSION}
         HEADLESS_SERVICES_IMAGE: ${HEADLESS_SERVICES_IMAGE}
-   
+    mem_limit: 2GB
+    volumes:
+      - ${LOCAL_DATA_PATH}\sql:c:\data
   
 
   # Mount our Solr data folder and use our retagged Solr image.
