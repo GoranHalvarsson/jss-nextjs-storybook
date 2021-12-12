@@ -172,9 +172,12 @@ jobs:
               }
               Write-Host "Generating Traefik TLS certificate..." -ForegroundColor Green
               & $mkcert -install
+              & $mkcert -cert-file cm.jss_nextjs_storybook.localhost.crt -key-file "cm.jss_nextjs_storybook.localhost.key" "cm.jss_nextjs_storybook.localhost"
+              & $mkcert -cert-file www.jss_nextjs_storybook.localhost.crt -key-file "www.jss_nextjs_storybook.localhost.key" "www.jss_nextjs_storybook.localhost"
+              & $mkcert -cert-file id.jss_nextjs_storybook.localhost.crt -key-file "id.jss_nextjs_storybook.localhost.key" "id.jss_nextjs_storybook.localhost"
               & $mkcert "*.jss_nextjs_storybook.localhost"
-              # & $mkcert -key-file key.pem -cert-file cert.pem "*.jss_nextjs_storybook.localhost"
-              # & certutil -addstore -enterprise -f "Root" cert.pem
+              & $mkcert -key-file key.pem -cert-file cert.pem "*.jss_nextjs_storybook.localhost"
+              & certutil -addstore -enterprise -f "Root" cert.pem
 
               # stash CAROOT path for messaging at the end of the script
               $caRoot = "$(& $mkcert -CAROOT)\rootCA.pem"
