@@ -253,11 +253,6 @@ jobs:
       - name: Run dockers
         shell: powershell 
         run: 
-          $envCheckVariable = "HOST_LICENSE_FOLDER"
-          $envCheck = Get-Content .env -Encoding UTF8 | Where-Object { $_ -imatch "^$envCheckVariable=.+" }
-          if (-not $envCheck) {
-              throw "$envCheckVariable does not have a value. Did you run 'init.ps1 -InitEnv'?"
-          }
           Write-Host "Building containers..." -ForegroundColor Green
           docker-compose build
           if ($LASTEXITCODE -ne 0) {
