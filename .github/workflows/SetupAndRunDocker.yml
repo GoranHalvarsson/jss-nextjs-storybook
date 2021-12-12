@@ -27,12 +27,6 @@ on:
         options:
         - default
         - process
-      SOLR_ISOLATION:
-        type: choice 
-        description: 'Select isolation type'
-        options:
-        - default
-        - process    
       HOST_LICENSE_FOLDER:
         description: 'Path to your Sitecore license'     
         required: true
