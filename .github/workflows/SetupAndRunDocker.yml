@@ -236,11 +236,13 @@ jobs:
           # SITECORE_ADMIN_PASSWORD
           echo "SITECORE_ADMIN_PASSWORD=${{ github.event.inputs.SITECORE_ADMIN_PASSWORD }}" >> $env:GITHUB_ENV
           
+          # JSS_EDITING_SECRET
           $jssEditingSecret = Get-SitecoreRandomString 64 -DisallowSpecial
-          $jssEditingSecretAgain = $jssEditingSecret -Path .\src\rendering\.env
           echo "JSS_EDITING_SECRET=$jssEditingSecret" >> $env:GITHUB_ENV
-          echo "JSS_EDITING_SECRET=$jssEditingSecretAgain" >> $env:GITHUB_ENV
-
+         
+          # Populate it for the Next.js local environment as well
+          Set-EnvFileVariable "JSS_EDITING_SECRET" -Value $jssEditingSecret -Path .\src\rendering\.env
+         
           Write-Host "Done!" -ForegroundColor Green
 
          
